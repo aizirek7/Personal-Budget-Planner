@@ -115,6 +115,176 @@ Every action taken by the user is logged and can be viewed in the activity log. 
 
 The activity log is saved in the memory and displayed when generating a report.
 
+## Outputs and test cases
+
+✅ **Test Case 1: Create User with Valid Data**
+
+**Input:**
+```
+1  
+Aizirek  
+aizirek@example.com  
+6000  
+2500  
+15000  
+```
+
+**Expected Output:**
+```
+Enter name: Aizirek  
+Enter email: aizirek@example.com  
+Enter income: 6000  
+Enter expenses: 2500  
+Enter savings goal: 15000  
+```
+
+**Result:** User Aizirek is successfully added to `users.csv`.  
+Activity log includes:  
+`User created: aizirek@example.com`
+
+---
+
+❌ **Test Case 2: Create User with Invalid Email**
+
+**Input:**
+```
+1  
+Aizirek  
+aizirekexample.com  
+aizirek@domain.com  
+5000  
+2200  
+10000  
+```
+
+**Expected Output:**
+```
+Enter name: Aizirek  
+Enter email: aizirekexample.com  
+Invalid email format.  
+Enter email: aizirek@domain.com  
+Enter income: 5000  
+Enter expenses: 2200  
+Enter savings goal: 10000  
+```
+
+**Result:** User Aizirek is added after providing a valid email.
+
+---
+
+✅ **Test Case 3: View Users**
+
+**Input:**
+```
+2  
+```
+
+**Expected Output:**
+```
+Aizirek | aizirek@example.com | Income: 6000.0, Expenses: 2500.0, Savings Goal: 15000.0  
+```
+
+**Result:** All current users are displayed, including Aizirek.
+
+---
+
+✅ **Test Case 4: Update User**
+
+**Input:**
+```
+3  
+aizirek@example.com  
+7000  
+2800  
+18000  
+```
+
+**Expected Output:**
+```
+Enter email of user to update: aizirek@example.com  
+New income: 7000  
+New expenses: 2800  
+New savings goal: 18000  
+```
+
+**Result:** Aizirek's details are updated in the file.
+
+---
+
+✅ **Test Case 5: Delete User**
+
+**Input:**
+```
+4  
+aizirek@example.com  
+```
+
+**Expected Output:**
+```
+Enter email of user to delete: aizirek@example.com  
+```
+
+**Result:** Aizirek is removed from the list and activity is logged.
+
+---
+
+✅ **Test Case 6: Calculate Savings Duration (Positive Savings)**
+
+**Input:**
+```
+6  
+aizirek@example.com  
+```
+
+**Expected Output:**
+```
+Enter email of user to calculate for: aizirek@example.com  
+It will take approximately 5 month(s) to reach the savings goal.  
+```
+
+**Reasoning:**  
+Income = 7000, Expenses = 2800 → Monthly Savings = 4200  
+Goal = 18000 → Months = 18000 / 4200 = ~4.28 → **5 months**
+
+---
+
+❌ **Test Case 7: Calculate Savings Duration (Negative Savings)**
+
+**Input:**
+```
+6  
+aizirek@example.com  
+(Assume income < expenses)  
+```
+
+**Expected Output:**
+```
+This user cannot save money with current income and expenses.  
+```
+
+---
+
+✅ **Test Case 8: Generate Report**
+
+**Input:**
+```
+5  
+```
+
+**Expected Output:**
+```
+Total users: 1  
+Activity log:  
+- User created: aizirek@example.com  
+- Viewed users  
+- Updated user: aizirek@example.com  
+- Deleted user: aizirek@example.com  
+- Calculated savings duration for: aizirek@example.com  
+- Generated report  
+```
+
+
+
 ## 📊 Presentation
 
 You can view the project presentation on Canva here:  
