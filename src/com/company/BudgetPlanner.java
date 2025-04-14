@@ -67,26 +67,53 @@ public class BudgetPlanner {
     }
 
     static void createUser() {
-        System.out.print("Enter name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter email: ");
-        String email = scanner.nextLine();
-        if (!isValidEmail(email)) {
-            System.out.println("Invalid email format.");
-            return;
-        }
-        System.out.print("Enter income: ");
-        double income = Double.parseDouble(scanner.nextLine());
-        System.out.print("Enter expenses: ");
-        double expenses = Double.parseDouble(scanner.nextLine());
-        System.out.print("Enter savings goal: ");
-        double savingsGoal = Double.parseDouble(scanner.nextLine());
+        String name;
+        do {
+            System.out.print("Enter name: ");
+            name = scanner.nextLine().trim();
+            if (name.isEmpty()) {
+                System.out.println("Name cannot be empty.");
+            }
+        } while (name.isEmpty());
+
+        String email;
+        do {
+            System.out.print("Enter email: ");
+            email = scanner.nextLine().trim();
+            if (!isValidEmail(email)) {
+                System.out.println("Invalid email format.");
+                email = "";
+            }
+        } while (email.isEmpty());
+
+        double income = readDouble("Enter income: ");
+        double expenses = readDouble("Enter expenses: ");
+        double savingsGoal = readDouble("Enter savings goal: ");
 
         List<User> users = readUsers();
         users.add(new User(name, email, income, expenses, savingsGoal));
         saveUsers(users);
         activityLog.add("User created: " + email);
     }
+
+    static double readDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim();
+            try {
+                double value = Double.parseDouble(input);
+                if (value <= 0) {
+                    System.out.println("Value must be a positive number. Please try again.");
+                } else {
+                    return value;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please enter a valid positive number.");
+            }
+        }
+    }
+
+
 
     static void viewUsers() {
         List<User> users = readUsers();
