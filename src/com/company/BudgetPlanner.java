@@ -13,7 +13,7 @@ public class BudgetPlanner {
     public static void main(String[] args) {
         while (true) {
             System.out.println("\n--- Personal Budget Planner ---");
-            System.out.println("1. Create User\n2. View Users\n3. Update User\n4. Delete User\n5. Generate Report\n6. Exit");
+            System.out.println("1. Create User\n2. View Users\n3. Update User\n4. Delete User\n5. Generate Report\n6. Calculate Savings Duration\n7. Exit");
             System.out.print("Choose an option: ");
             String option = scanner.nextLine();
 
@@ -28,9 +28,12 @@ public class BudgetPlanner {
             } else if ("5".equals(option)) {
                 generateReport();
             } else if ("6".equals(option)) {
+                calculateSavingsDuration();
+            } else if ("7".equals(option)) {
                 exitApp();
                 return;
-            } else {
+            }
+            else {
                 System.out.println("Invalid option.");
             }
         }
@@ -139,6 +142,28 @@ public class BudgetPlanner {
         }
         activityLog.add("Generated report");
     }
+
+    static void calculateSavingsDuration() {
+        List<User> users = readUsers();
+        System.out.print("Enter email of user to calculate for: ");
+        String email = scanner.nextLine();
+
+        for (User user : users) {
+            if (user.email.equals(email)) {
+                double monthlySavings = user.income - user.expenses;
+                if (monthlySavings <= 0) {
+                    System.out.println("This user cannot save money with current income and expenses.");
+                    return;
+                }
+                int months = (int) Math.ceil(user.savingsGoal / monthlySavings);
+                System.out.println("It will take approximately " + months + " month(s) to reach the savings goal.");
+                activityLog.add("Calculated savings duration for: " + email);
+                return;
+            }
+        }
+        System.out.println("User not found.");
+    }
+
 
     static void exitApp() {
         System.out.println("Exiting application. Goodbye!");
