@@ -77,22 +77,36 @@ public class BudgetPlanner {
         } while (name.isEmpty());
 
         String email;
+        List<User> users = readUsers();
+        boolean emailExists;
+
         do {
             System.out.print("Enter email: ");
             email = scanner.nextLine().trim();
+
             if (!isValidEmail(email)) {
                 System.out.println("Invalid email format.");
-                email = "";
+                continue; // Skip to the next iteration
             }
-        } while (email.isEmpty());
+
+            // The email variable is now effectively final
+            String finalEmail = email;
+            emailExists = users.stream().anyMatch(user -> user.email.equalsIgnoreCase(finalEmail));
+            if (emailExists) {
+                System.out.println("This email already exists. Please use a different one.");
+                email = null;  // Prevent modification of 'email' after being used in the lambda expression
+            }
+
+        } while (email == null);
 
         double income = readDouble("Enter income: ");
         double expenses = readDouble("Enter expenses: ");
         double savingsGoal = readDouble("Enter savings goal: ");
 
-        List<User> users = readUsers();
+        // Add the new user and save the updated list
         users.add(new User(name, email, income, expenses, savingsGoal));
         saveUsers(users);
+
         activityLog.add("User created: " + email);
     }
 
